@@ -16,20 +16,20 @@ const campgroundSchema = new mongoose.Schema({
 
 const Campground = mongoose.model('Campground', campgroundSchema)
 
-Campground.create(
-    {
-        name: 'Granite Hill', 
-        image: 'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2498&q=80',
-        description: 'This is a huge granite hill, no bathrooms. No water, beautiful granite!'
-    }, 
-    function (err, campground) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("newly created campground:");
-            console.log(campground);
-        }
-})
+// Campground.create(
+//     {
+//         name: 'Granite Hill', 
+//         image: 'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2498&q=80',
+//         description: 'This is a huge granite hill, no bathrooms. No water, beautiful granite!'
+//     }, 
+//     function (err, campground) {
+//         if (err) {
+//             console.log(err);
+//         } else {
+//             console.log("newly created campground:");
+//             console.log(campground);
+//         }
+// })
 
 
 app.get('/', function(req, res) {
@@ -43,7 +43,7 @@ app.get('/campgrounds', function(req, res) {
         if (err) {
             console.log(err);
         } else {  
-            res.render('campgrounds', {campgrounds: allCampgrounds})
+            res.render('index', {campgrounds: allCampgrounds})
         }         
     })
 })
@@ -53,11 +53,12 @@ app.get('/campgrounds/new', function(req, res) {
     res.render('new.ejs')
 })
 
-// CREATE - Add new campground to DB
+//CREATE - Add new campground to DB
 app.post('/campgrounds', function(req, res) {
     const name = req.body.name
     const image = req.body.image
-    const newCampground = {name: name, image: image}
+    const desc = req.body.description
+    const newCampground = {name: name, image: image, description: desc}
     // create a new campground and save to DB
     Campground.create(newCampground, function(err, newlyCreated) {
         if (err) {
@@ -68,11 +69,19 @@ app.post('/campgrounds', function(req, res) {
     })
 })
 
-
+// SHOW - Shows more info about one campground
 app.get('/campgrounds/:id', function(req, res){
     //find the campground with provided ID
-    //render the show template with that playground
-    res.send('This will be the show page one day')
+    Campground.findById(req.params.id, function(err, foundCampground) {
+        if (err) {
+            console.log(err);
+        } else {
+            //render the show template with that playground
+            res.render('show', {campground :foundCampground})
+        }       
+    })
+    
+    
 })
 
 
