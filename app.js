@@ -5,10 +5,10 @@ const mongoose = require('mongoose')
 const Campground = require('./models/campground')
 const seedDB = require('./seeds')
 
-seedDB()
 mongoose.connect('mongodb://localhost:27017/yelp_camp', { useNewUrlParser: true }) 
 app.use(bodyParser.urlencoded({extended: true}))
 app.set('view engine', 'ejs')
+seedDB()
 
 
 
@@ -24,14 +24,14 @@ app.get('/campgrounds', function(req, res) {
         if (err) {
             console.log(err);
         } else {  
-            res.render('index', {campgrounds: allCampgrounds})
+            res.render('campgrounds/index', {campgrounds: allCampgrounds})
         }         
     })
 })
 
 // NEW - Show form to create new campground
 app.get('/campgrounds/new', function(req, res) {
-    res.render('new.ejs')
+    res.render('campgrounds/new')
 })
 
 //CREATE - Add new campground to DB
@@ -60,11 +60,26 @@ app.get('/campgrounds/:id', function(req, res){
             console.log(foundCampground);
             
             //render the show template with that playground
-            res.render('show', {campground :foundCampground})
+            res.render('campgrounds/show', {campground :foundCampground})
         }       
+    })    
+})
+
+
+// ===================
+// COMMENTS ROUTES
+// ===================
+
+
+app.get('/campgrounds/:id/comments/new', function(req, res){
+    // find campground by id
+    Campground.findById(req.params.id, function(err, campground){
+        if(err){
+            console.log(err);
+        } else {
+            res.render('comments/new', {campground: campground})
+        }
     })
-    
-    
 })
 
 
