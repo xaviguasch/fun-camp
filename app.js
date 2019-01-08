@@ -12,21 +12,6 @@ app.set('view engine', 'ejs')
 
 
 
-// Campground.create(
-//     {
-//         name: 'Granite Hill', 
-//         image: 'https://images.unsplash.com/photo-1504851149312-7a075b496cc7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2498&q=80',
-//         description: 'This is a huge granite hill, no bathrooms. No water, beautiful granite!'
-//     }, 
-//     function (err, campground) {
-//         if (err) {
-//             console.log(err);
-//         } else {
-//             console.log("newly created campground:");
-//             console.log(campground);
-//         }
-// })
-
 
 app.get('/', function(req, res) {
     res.render('landing')
@@ -68,10 +53,12 @@ app.post('/campgrounds', function(req, res) {
 // SHOW - Shows more info about one campground
 app.get('/campgrounds/:id', function(req, res){
     //find the campground with provided ID
-    Campground.findById(req.params.id, function(err, foundCampground) {
+    Campground.findById(req.params.id).populate('comments').exec(function(err, foundCampground) {
         if (err) {
             console.log(err);
         } else {
+            console.log(foundCampground);
+            
             //render the show template with that playground
             res.render('show', {campground :foundCampground})
         }       
