@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -47,5 +48,5 @@ app.use('/campgrounds/:id/comments', commentRoutes)
 
 
 app.listen(3000, 'localhost', function() {
-    console.log('FunCamp server has started, listening on port 3000, you camper!!!');
+    console.log('FunCamp server has started, listening on port 3000, you camper!!!')
 })

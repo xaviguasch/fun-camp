@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const express = require('express')
 const router = express.Router()
 const passport = require('passport')
@@ -30,16 +31,16 @@ router.post('/register', function(req, res){
 })
 
 // show login form
-router.get("/login", function(req, res){
-   res.render("login"); 
-});
+router.get('/login', function(req, res){
+    res.render('login') 
+})
 // handling login logic
-router.post("/login", passport.authenticate("local", 
+router.post('/login', passport.authenticate('local', 
     {
-        successRedirect: "/campgrounds",
-        failureRedirect: "/login"
+        successRedirect: '/campgrounds',
+        failureRedirect: '/login'
     }), function(req, res){
-});
+})
 
 
 // logout route
