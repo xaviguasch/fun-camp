@@ -97,6 +97,7 @@ router.delete('/:id', checkCampgroundOwnership, function(req, res){
 
 
 
+
 // middleware
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
