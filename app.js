@@ -3,9 +3,9 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const methodOverride = require('method-override')
+const passport = require('passport')
 const flash = require('connect-flash')
 const Campground = require('./models/campground')
 const Comment = require('./models/comment')
@@ -41,6 +41,8 @@ passport.deserializeUser(User.deserializeUser())
 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user
+    res.locals.error = req.flash('error')
+    res.locals.success = req.flash('success')
     next()
 })
 
